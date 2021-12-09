@@ -1,8 +1,10 @@
 from bs4 import BeautifulSoup
+import os
 import requests
 from requests.models import Response
 
-import api.scraper.constants as const
+import constants as const
+from media import image
 
 
 def detail(pagelink: str):
@@ -21,7 +23,10 @@ def detail(pagelink: str):
         .find(class_="cell1")
         .get_text()
         .split(" | "),
-        "heroImage": soup.find(class_="imageseries1").find("img").get("src"),
+        "heroImage": image(
+            soup.find(class_="imageseries1").find("img").get("src"),
+            set(os.listdir(const.MEDIA)),
+        ),
         "season": lambda x: x.get_text().strip(),
         "title": soup.find("h1", attrs={"class": "uk-badge1"}).get_text().strip(),
     }
