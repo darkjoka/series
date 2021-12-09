@@ -5,8 +5,8 @@ from requests.models import Response
 from typing import List, Set
 
 
-from api.scraper.types import Movie
-import api.scraper.constants as const
+from stypes import Movie
+import constants as const
 
 
 def trailers() -> List[Movie]:

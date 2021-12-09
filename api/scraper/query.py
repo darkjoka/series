@@ -4,7 +4,7 @@ import requests
 from requests.models import Response
 from typing import List
 
-from api.scraper.types import Movie
+from stypes import Movie
 
 
 def genericSearch(searchTerm: str) -> List[Movie]:
