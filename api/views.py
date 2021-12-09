@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from django.http import JsonResponse
 
-# Create your views here.
+from scraper.index import index
+
+
+def indexView(request):
+    result = index()
+    return JsonResponse({"data": result})
