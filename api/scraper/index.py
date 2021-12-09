@@ -8,8 +8,8 @@ import constants as const
 from media import image
 
 
-def index(pagelink: str):
-    mime: Response = requests.get(pagelink)
+def index():
+    mime: Response = requests.get(const.BASEURL)
     soup: BeautifulSoup = BeautifulSoup(mime.content, const.PARSER)
     articles: ResultSet = soup.find_all(class_="uk-article")
 
