@@ -1,5 +1,7 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 
+
+from scraper.constants import MEDIA
 from scraper.index import index
 from scraper.media import trailers
 from scraper.query import genericSearch, filteredSearch
@@ -23,3 +25,10 @@ def filterView(_, filter) -> JsonResponse:
 def trailersView(_) -> JsonResponse:
     result = trailers()
     return JsonResponse({"data": result})
+
+
+def imageView(_, image) -> HttpResponse:
+    extension: str = image.split(".")[-1]
+
+    with open(f"./{MEDIA}/{image}", "rb") as file:
+        return HttpResponse(file, content_type=f"image/{extension}")
