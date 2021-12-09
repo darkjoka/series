@@ -1,11 +1,11 @@
 from django.http import JsonResponse, HttpResponse
 
 
-from scraper.constants import MEDIA
-from scraper.detail import detail
-from scraper.index import index
-from scraper.media import trailers
-from scraper.query import genericSearch, filteredSearch
+from .scraper.constants import MEDIA
+from .scraper.detail import detail
+from .scraper.index import index
+from .scraper.media import trailers
+from .scraper.query import genericSearch, filteredSearch
 
 
 def indexView(_) -> JsonResponse:
