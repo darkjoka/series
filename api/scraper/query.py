@@ -27,11 +27,11 @@ def genericSearch(searchTerm: str) -> List[Movie]:
     ]
 
 
-def filteredSearch(filterString: str) -> List[Movie]:
+def filteredSearch(filter: str) -> List[Movie]:
     tail: str = (
-        f"tv-series-started-in-{filterString}"
+        f"tv-series-started-in-{filter}"
         if type.isnumeric()
-        else f"tv-series-{filterString}-genre"
+        else f"tv-series-{filter}-genre"
     )
 
     permalink: str = f"{const.BASEURL}{tail}"
