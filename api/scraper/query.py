@@ -1,17 +1,21 @@
 from bs4 import BeautifulSoup
 from bs4.element import ResultSet
 import requests
+from requests.compat import quote_plus
 from requests.models import Response
 from typing import List
 
+import constants as const
 from stypes import Movie
 
 
 def genericSearch(searchTerm: str) -> List[Movie]:
-    # TODO: construct permalink
-    permalink: str
+    tail: str = (
+        f"search-series?searchword={quote_plus(searchTerm)}&searchphrase=all&limit=0"
+    )
+    permalink: str = f"{const.BASEURL}{tail}"
     mime: Response = requests.get(permalink)
-    soup: BeautifulSoup = BeautifulSoup(mime.content, "html.parser")
+    soup: BeautifulSoup = BeautifulSoup(mime.content, const.PARSER)
     articles: ResultSet = soup.find_all("article")
 
     return [
@@ -27,7 +31,7 @@ def filteredSearch(filterString: str) -> List[Movie]:
     # TODO: construct permalink
     permalink: str
     mime: Response = requests.get(permalink)
-    soup: BeautifulSoup = BeautifulSoup(mime.content, "html.parser")
+    soup: BeautifulSoup = BeautifulSoup(mime.content, const.PARSER)
     articles: ResultSet = soup.find_all("article")
 
     components = {
