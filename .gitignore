@@ -1,10 +1,10 @@
 /env
 # environment variables
 
-/migrations 
+migrations/ 
 # migration files
 
-/__pycache__
+__pycache__/
 # python cache files
 
 *.sqlite3
