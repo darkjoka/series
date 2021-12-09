@@ -5,8 +5,8 @@ from requests.compat import quote_plus
 from requests.models import Response
 from typing import List
 
-import constants as const
-from stypes import Movie
+from . import constants as const
+from .stypes import Movie
 
 
 def genericSearch(searchTerm: str) -> List[Movie]:

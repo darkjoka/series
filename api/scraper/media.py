@@ -6,8 +6,8 @@ from requests.models import Response
 from typing import List, Set
 
 
-from stypes import Movie
-import constants as const
+from .stypes import Movie
+from . import constants as const
 
 
 def trailers() -> List[Movie]:

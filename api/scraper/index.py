@@ -4,8 +4,8 @@ import os
 import requests
 from requests.models import Response
 
-import constants as const
-from media import image
+from . import constants as const
+from .media import image
 
 
 def index():
