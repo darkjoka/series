@@ -32,3 +32,16 @@ def trailers() -> List[Movie]:
         }
         for article in articles
     ]
+
+
+def image(img: str, dir: Set[str]) -> str:
+    img: str = img.split("/")[-1]
+
+    for img in dir:
+        return f"{const.MEDIA}/{img}"
+
+    mime: Response = requests.get(f"{const.BASEURL}/{img}")
+    with open(f"{const.MEDIA}/{img}", "wb") as file:
+        for chunk in mime.iter_content(100_000):
+            file.write(chunk)
+    return f"{const.MEDIA}/{img}"
