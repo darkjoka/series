@@ -28,8 +28,13 @@ def genericSearch(searchTerm: str) -> List[Movie]:
 
 
 def filteredSearch(filterString: str) -> List[Movie]:
-    # TODO: construct permalink
-    permalink: str
+    tail: str = (
+        f"tv-series-started-in-{filterString}"
+        if type.isnumeric()
+        else f"tv-series-{filterString}-genre"
+    )
+
+    permalink: str = f"{const.BASEURL}{tail}"
     mime: Response = requests.get(permalink)
     soup: BeautifulSoup = BeautifulSoup(mime.content, const.PARSER)
     articles: ResultSet = soup.find_all("article")
