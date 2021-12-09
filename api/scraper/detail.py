@@ -7,7 +7,8 @@ from . import constants as const
 from .media import image
 
 
-def detail(pagelink: str):
+def detail(movie: str):
+    pagelink: str = f"{const.BASEURL}{const.SUBURL}{movie}"
     mime: Response = requests.get(pagelink)
     soup: BeautifulSoup = BeautifulSoup(mime.content, const.PARSER)
 
