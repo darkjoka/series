@@ -19,8 +19,8 @@ def trailers() -> List[Movie]:
         "production": lambda x: x.get("class")[4] if len(x.get("class")) > 4 else "",
         "title": lambda x: x.find(class_="jux-title").get_text().strip(),
         "permalink": lambda x: x.find(class_="jux-title").find("a").get("href").strip(),
-        "thumbnailSrc": image(
-            lambda x: x.find("img").get("src").strip(), set(os.listdir(const.MEDIA))
+        "thumbnailSrc": lambda x: image(
+            x.find("img").get("src").strip(), set(os.listdir(const.MEDIA))
         ),
         "videoSrc": lambda x: x.find("iframe").get("src").strip(),
     }
