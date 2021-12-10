@@ -37,14 +37,14 @@ def trailers() -> List[Movie]:
     ]
 
 
-def image(img: str, dir: Set[str]) -> str:
-    img: str = img.split("/")[-1]
+def image(imageSrc: str, dir: Set[str]) -> str:
+    image: str = imageSrc.split("/")[-1]
 
-    for img in dir:
-        return f"{const.MEDIA}/{img}"
+    if image in dir:
+        return image
 
-    mime: Response = requests.get(f"{const.BASEURL}/{img}")
-    with open(f"{const.MEDIA}/{img}", "wb") as file:
+    mime: Response = requests.get(f"{const.BASEURL}/{imageSrc}")
+    with open(f"{const.MEDIA}/{image}", "wb") as file:
         for chunk in mime.iter_content(100_000):
             file.write(chunk)
-    return f"{const.MEDIA}/{img}"
+    return f"{const.MEDIA}/{image}"
