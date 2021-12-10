@@ -21,7 +21,7 @@ def genericSearch(searchTerm: str) -> List[Movie]:
     return [
         {
             "title": article.get_text().strip(),
-            "permalink": article.find("a").get("href"),
+            "permalink": article.find("a").get("href").split("/")[-1],
         }
         for article in articles
     ]
@@ -44,7 +44,8 @@ def filteredSearch(filter: str) -> List[Movie]:
         "permalink": lambda x: x.find(class_="uk-article-titletage")
         .find("a")
         .get("href")
-        .strip(),
+        .strip()
+        .split("/")[-1],
         "image": lambda x: x.find("img").get("src").strip(),
     }
 

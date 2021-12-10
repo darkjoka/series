@@ -18,7 +18,7 @@ def index():
             x.find("img").get("src"), set(os.listdir(const.MEDIA))
         ),
         "lastEpisode": lambda x: x.find("time").get("datetime"),
-        "permalink": lambda x: x.get("data-permalink"),
+        "permalink": lambda x: x.get("data-permalink").split("/")[-1],
         "rating": lambda x: x.find(class_="current-rating").get_text().strip(),
         "teaser": lambda x: x.find(class_="teasershort").get_text().strip(),
         "title": lambda x: x.find(class_="uk-article-title1").get_text().strip(),
