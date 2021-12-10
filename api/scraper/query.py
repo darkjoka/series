@@ -1,11 +1,13 @@
 from bs4 import BeautifulSoup
 from bs4.element import ResultSet
+import os
 import requests
 from requests.compat import quote_plus
 from requests.models import Response
 from typing import List
 
 from . import constants as const
+from .media import image
 from .stypes import Movie
 
 
@@ -30,7 +32,7 @@ def genericSearch(searchTerm: str) -> List[Movie]:
 def filteredSearch(filter: str) -> List[Movie]:
     tail: str = (
         f"tv-series-started-in-{filter}"
-        if type.isnumeric()
+        if filter.isnumeric()
         else f"tv-series-{filter}-genre"
     )
 
@@ -41,12 +43,14 @@ def filteredSearch(filter: str) -> List[Movie]:
 
     components = {
         "title": lambda x: x.find(class_="uk-article-titletag").get_text().strip(),
-        "permalink": lambda x: x.find(class_="uk-article-titletage")
+        "permalink": lambda x: x.find(class_="uk-article-titletag")
         .find("a")
         .get("href")
         .strip()
         .split("/")[-1],
-        "image": lambda x: x.find("img").get("src").strip(),
+        "image": lambda x: image(
+            x.find("img").get("src").strip(), set(os.listdir(const.MEDIA))
+        ),
     }
 
     return [
