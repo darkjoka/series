@@ -9,18 +9,18 @@ from .media import image
 
 
 def index():
-    mime: Response = requests.get(const.BASEURL)
+    mime: Response = requests.get(f"{const.BASEURL}{const.SUBURL}")
     soup: BeautifulSoup = BeautifulSoup(mime.content, const.PARSER)
     articles: ResultSet = soup.find_all(class_="uk-article")
 
     component = {
         "imageSrc": lambda x: image(
-            x.find("find").get("src"), set(os.listdir(const.MEDIA))
+            x.find("img").get("src"), set(os.listdir(const.MEDIA))
         ),
         "lastEpisode": lambda x: x.find("time").get("datetime"),
         "permalink": lambda x: x.get("data-permalink"),
         "rating": lambda x: x.find(class_="current-rating").get_text().strip(),
-        "teaser": lambda x: x.find(class_="teaershort").get_text().strip(),
+        "teaser": lambda x: x.find(class_="teasershort").get_text().strip(),
         "title": lambda x: x.find(class_="uk-article-title1").get_text().strip(),
     }
 
