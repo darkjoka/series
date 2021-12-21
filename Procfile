@@ -1,1 +1,1 @@
-web: gunicorn jokatv.wsgi --log-file -
+web: gunicorn series.wsgi --log-file -
