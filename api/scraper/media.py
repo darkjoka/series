@@ -47,4 +47,4 @@ def image(imageSrc: str, dir: Set[str]) -> str:
     with open(f"{const.MEDIA}/{image}", "wb") as file:
         for chunk in mime.iter_content(100_000):
             file.write(chunk)
-    return f"{const.MEDIA}/{image}"
+    return image
