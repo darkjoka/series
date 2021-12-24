@@ -8,8 +8,8 @@ from .scraper.media import trailers
 from .scraper.query import genericSearch, filteredSearch
 
 
-def indexView(_) -> JsonResponse:
-    result = index()
+def indexView(_, cursor: int) -> JsonResponse:
+    result = index(cursor)
     return JsonResponse({"data": result})
 
 
