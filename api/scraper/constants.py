@@ -1,5 +1,5 @@
 BASEURL = "http://www.todaytvseries2.com/"
 MEDIA = "staticfiles"
 PARSER = "html.parser"
-SUBURL = "tv-series/"
+SUBURL = "tv-series"
 TRAILERS = "http://www.todaytvseries2.com/tvshow-trailers"

@@ -8,8 +8,9 @@ from . import constants as const
 from .media import image
 
 
-def index():
-    mime: Response = requests.get(f"{const.BASEURL}{const.SUBURL}")
+def index(cursor: int):
+    navExtension = f"?start={cursor}" if cursor else ""
+    mime: Response = requests.get(f"{const.BASEURL}{const.SUBURL}{navExtension}")
     soup: BeautifulSoup = BeautifulSoup(mime.content, const.PARSER)
     articles: ResultSet = soup.find_all(class_="uk-article")
 
