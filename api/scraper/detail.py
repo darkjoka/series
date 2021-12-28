@@ -12,10 +12,17 @@ def detail(movie: str):
     mime: Response = requests.get(pagelink)
     soup: BeautifulSoup = BeautifulSoup(mime.content, const.PARSER)
 
+    def getDescription():
+        descriptors = soup.select(".extravote ~ p")
+        result = ""
+        for descriptor in descriptors:
+            if descriptor.find("span"):
+                break
+            result += descriptor.get_text().strip() + "\n"
+        return result.strip()
+
     component = {
-        "description": soup.find("meta", attrs={"property": "og:description"}).get(
-            "content"
-        ),
+        "description": getDescription(),
         "episodePermalink": lambda x: x.find(class_="cell4").find("a").get("href"),
         "episodes": lambda x: x.find_all(class_="footer"),
         "episodeSize": lambda x: x.find(class_="cell3").get_text().strip(),
