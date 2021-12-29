@@ -11,3 +11,7 @@ __pycache__/
 # database
 
 staticfiles
+
+
+*.pickle
+# cache
