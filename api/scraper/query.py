@@ -57,7 +57,7 @@ def filteredSearch(filter: str) -> List[Movie]:
         ),
     }
 
-    data = [
+    return [
         {
             "title": components["title"](article),
             "permalink": components["permalink"](article),
@@ -65,8 +65,6 @@ def filteredSearch(filter: str) -> List[Movie]:
         }
         for article in articles
     ]
-
-    return queryInfoSeek(const.FILTER_CACHE, data)
 
 
 def queryInfoSeek(store, data):
@@ -79,7 +77,7 @@ def queryInfoSeek(store, data):
 
     with open(store, "rb") as file:
         cached_data = pickle.load(file)
-        for info in data:
+        for info in data[:5]:
 
             if info["title"] in cached_data:
                 result.append(cached_data[info["title"]])
