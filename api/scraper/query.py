@@ -77,7 +77,7 @@ def queryInfoSeek(store, data):
 
     with open(store, "rb") as file:
         cached_data = pickle.load(file)
-        for info in data[:5]:
+        for info in data[:12]:
 
             if info["title"] in cached_data:
                 result.append(cached_data[info["title"]])
