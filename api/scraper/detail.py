@@ -37,6 +37,10 @@ def detail(movie: str):
         ),
         "season": lambda x: x.get_text().strip(),
         "title": soup.find("h1", attrs={"class": "uk-badge1"}).get_text().strip(),
+        "rating": soup.find("span", attrs={"class": "extravote-info"})
+        .get_text()
+        .strip()
+        .split(" ")[1],
     }
 
     seasonEpisodes = [
@@ -61,6 +65,7 @@ def detail(movie: str):
         "description": component["description"],
         "genres": component["genres"],
         "heroImage": component["heroImage"],
+        "rating": component["rating"],
         "seasonEpisodes": seasonEpisodes,
         "title": component["title"],
     }
