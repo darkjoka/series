@@ -31,7 +31,8 @@ def genericSearch(searchTerm: str, cursor: int) -> List[Movie]:
         for article in articles
     ]
 
-    return queryInfoSeek(const.QUERY_CACHE, data)
+    result = queryInfoSeek(const.QUERY_CACHE, data)
+    result["length"]
 
 
 def filteredSearch(filter: str, cursor: int) -> List[Movie]:
@@ -57,6 +58,7 @@ def filteredSearch(filter: str, cursor: int) -> List[Movie]:
         "image": lambda x: image(
             x.find("img").get("src").strip(), set(os.listdir(const.MEDIA))
         ),
+        "length": soup.find(class_="uk-badge-notification").get_text().strip(),
     }
 
     data = [
@@ -68,7 +70,10 @@ def filteredSearch(filter: str, cursor: int) -> List[Movie]:
         for article in articles
     ]
 
-    return queryInfoSeek(const.FILTER_CACHE, data)
+    return {
+        "length": components["length"],
+        data: queryInfoSeek(const.QUERY_CACHE, data),
+    }
 
 
 def queryInfoSeek(store, data):
