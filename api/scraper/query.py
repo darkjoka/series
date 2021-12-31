@@ -13,11 +13,12 @@ from .stypes import Movie
 from .detail import detail
 
 
-def genericSearch(searchTerm: str) -> List[Movie]:
+def genericSearch(searchTerm: str, cursor: int) -> List[Movie]:
     tail: str = (
-        f"search-series?searchword={quote_plus(searchTerm)}&searchphrase=all&limit=0"
+        f"search-series?searchword={quote_plus(searchTerm)}&searchphrase=all&limit=5"
     )
-    permalink: str = f"{const.BASEURL}{tail}"
+    navExtension = f"&?start={cursor}" if cursor else ""
+    permalink: str = f"{const.BASEURL}{tail}{navExtension}"
     mime: Response = requests.get(permalink)
     soup: BeautifulSoup = BeautifulSoup(mime.content, const.PARSER)
     articles: ResultSet = soup.find_all("article")
@@ -33,14 +34,15 @@ def genericSearch(searchTerm: str) -> List[Movie]:
     return queryInfoSeek(const.QUERY_CACHE, data)
 
 
-def filteredSearch(filter: str) -> List[Movie]:
+def filteredSearch(filter: str, cursor: int) -> List[Movie]:
     tail: str = (
         f"tv-series-started-in-{filter}"
         if filter.isnumeric()
         else f"tv-series-{filter}-genre"
     )
+    navExtension = f"?start={cursor}" if cursor else ""
 
-    permalink: str = f"{const.BASEURL}{tail}"
+    permalink: str = f"{const.BASEURL}{tail}{navExtension}"
     mime: Response = requests.get(permalink)
     soup: BeautifulSoup = BeautifulSoup(mime.content, const.PARSER)
     articles: ResultSet = soup.find_all("article")
@@ -57,7 +59,7 @@ def filteredSearch(filter: str) -> List[Movie]:
         ),
     }
 
-    return [
+    data = [
         {
             "title": components["title"](article),
             "permalink": components["permalink"](article),
@@ -65,6 +67,8 @@ def filteredSearch(filter: str) -> List[Movie]:
         }
         for article in articles
     ]
+
+    return queryInfoSeek(const.FILTER_CACHE, data)
 
 
 def queryInfoSeek(store, data):
