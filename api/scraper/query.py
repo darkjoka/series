@@ -91,7 +91,7 @@ def queryInfoSeek(store, data):
             else:
                 detailData = detail(info["permalink"])
                 requiredData = {key: info[key] for key in info.keys()}
-                requiredData["imageSrc"] = detailData["heroImage"]
+                requiredData["heroImage"] = detailData["heroImage"]
                 description = " ".join(detailData["description"].split("\n"))
                 requiredData["teaser"] = description[:150]
                 requiredData["rating"] = detailData["rating"]
