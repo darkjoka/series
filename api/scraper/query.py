@@ -33,7 +33,7 @@ def genericSearch(searchTerm: str, cursor: int) -> List[Movie]:
 
     return {
         "length": int(soup.find(class_="uk-badge-notification").get_text().strip()),
-        data: queryInfoSeek(const.QUERY_CACHE, data),
+        "data": queryInfoSeek(const.QUERY_CACHE, data),
     }
 
 
