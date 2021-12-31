@@ -17,7 +17,8 @@ def genericSearch(searchTerm: str, cursor: int) -> List[Movie]:
     tail: str = (
         f"search-series?searchword={quote_plus(searchTerm)}&searchphrase=all&limit=5"
     )
-    navExtension = f"&?start={cursor}" if cursor else ""
+    navExtension = f"&start={cursor}" if cursor else ""
+
     permalink: str = f"{const.BASEURL}{tail}{navExtension}"
     mime: Response = requests.get(permalink)
     soup: BeautifulSoup = BeautifulSoup(mime.content, const.PARSER)
