@@ -95,7 +95,7 @@ def queryInfoSeek(store, data):
                 requiredData = {key: info[key] for key in info.keys()}
                 requiredData["heroImage"] = detailData["heroImage"]
                 description = " ".join(detailData["description"].split("\n"))
-                requiredData["description"] = description[:150]
+                requiredData["teaser"] = description[:150]
                 requiredData["rating"] = detailData["rating"]
 
                 result.append(requiredData)
