@@ -13,29 +13,23 @@ from .stypes import Movie
 from .detail import detail
 
 
-def genericSearch(searchTerm: str, cursor: int) -> List[Movie]:
+def genericSearch(searchTerm: str) -> List[Movie]:
     tail: str = (
-        f"search-series?searchword={quote_plus(searchTerm)}&searchphrase=all&limit=5"
+        f"search-series?searchword={quote_plus(searchTerm)}&searchphrase=all&limit=0"
     )
-    navExtension = f"&start={cursor}" if cursor else ""
 
-    permalink: str = f"{const.BASEURL}{tail}{navExtension}"
+    permalink: str = f"{const.BASEURL}{tail}"
     mime: Response = requests.get(permalink)
     soup: BeautifulSoup = BeautifulSoup(mime.content, const.PARSER)
     articles: ResultSet = soup.find_all("article")
 
-    data = [
+    return [
         {
             "title": article.get_text().strip(),
             "permalink": article.find("a").get("href").split("/")[-1],
         }
         for article in articles
     ]
-
-    return {
-        "length": int(soup.find(class_="uk-badge-notification").get_text().strip()),
-        "data": queryInfoSeek(const.QUERY_CACHE, data),
-    }
 
 
 def filteredSearch(filter: str, cursor: int) -> List[Movie]:
@@ -91,7 +85,6 @@ def queryInfoSeek(store, data):
             else:
                 detailData = detail(info["permalink"])
                 requiredData = {key: info[key] for key in info.keys()}
-                requiredData["heroImage"] = detailData["heroImage"]
                 description = " ".join(detailData["description"].split("\n"))
                 requiredData["teaser"] = description[:150]
                 requiredData["rating"] = detailData["rating"]
