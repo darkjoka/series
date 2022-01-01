@@ -18,11 +18,15 @@ def trailers() -> List[Movie]:
     components = {
         "production": lambda x: x.get("class")[4] if len(x.get("class")) > 4 else "",
         "title": lambda x: x.find(class_="jux-title").get_text().strip(),
-        "permalink": lambda x: x.find(class_="jux-title").find("a").get("href").strip(),
+        "permalink": lambda x: x.find(class_="jux-title")
+        .find("a")
+        .get("href")
+        .strip()
+        .split("/")[-1],
         "thumbnailSrc": lambda x: image(
             x.find("img").get("src").strip(), set(os.listdir(const.MEDIA))
         ),
-        "videoSrc": lambda x: x.find("iframe").get("src").strip(),
+        "videoSrc": lambda x: x.find("iframe").get("src").strip().split("/")[-1],
     }
 
     return [
