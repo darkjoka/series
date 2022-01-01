@@ -13,8 +13,8 @@ def indexView(_, cursor: int) -> JsonResponse:
     return JsonResponse({"data": result})
 
 
-def searchView(_, searchTerm, cursor: int) -> JsonResponse:
-    result = genericSearch(searchTerm, cursor)
+def searchView(_, searchTerm) -> JsonResponse:
+    result = genericSearch(searchTerm)
     return JsonResponse({"data": result})
 
 
