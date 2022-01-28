@@ -1,3 +1,4 @@
+from xmlrpc.client import boolean
 from bs4 import BeautifulSoup
 import os
 import requests
@@ -7,7 +8,7 @@ from . import constants as const
 from .media import image
 
 
-def detail(movie: str):
+def detail(movie: str, includeImage: boolean = True):
     pagelink: str = f"{const.BASEURL}{const.SUBURL}/{movie}"
     mime: Response = requests.get(pagelink)
     soup: BeautifulSoup = BeautifulSoup(mime.content, const.PARSER)
@@ -34,7 +35,9 @@ def detail(movie: str):
         "heroImage": image(
             soup.find(class_="imageseries1").find("img").get("src"),
             set(os.listdir(const.MEDIA)),
-        ),
+        )
+        if includeImage
+        else "",
         "season": lambda x: x.get_text().strip(),
         "title": soup.find("h1", attrs={"class": "uk-badge1"}).get_text().strip(),
         "rating": soup.find("span", attrs={"class": "extravote-info"})
