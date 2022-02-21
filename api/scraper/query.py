@@ -77,7 +77,7 @@ def filteredSearch(filter: str, cursor: int) -> List[Movie]:
     return result
 
 
-def getDetail(data: dict[str, Any]):
+def getDetail(data):
     detailData = detail(data["permalink"], False)
     requiredData = {key: data[key] for key in data.keys()}
     description = " ".join(detailData["description"].split("\n"))
