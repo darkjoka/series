@@ -1,11 +1,10 @@
 from bs4 import BeautifulSoup
 from bs4.element import ResultSet
-import os
-import pickle
+import os, requests, concurrent.futures, pickle, json
 import requests
 from requests.compat import quote_plus
 from requests.models import Response
-from typing import List
+from typing import Any, List
 
 from . import constants as const
 from .media import image
@@ -65,7 +64,26 @@ def filteredSearch(filter: str, cursor: int) -> List[Movie]:
         }
         for article in articles
     ]
-    return queryInfoSeek(const.FILTER_CACHE, data)
+
+    result = []
+
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        results = [executor.submit(getDetail, d) for d in data]
+
+        for data in concurrent.futures.as_completed(results):
+            res = data.result()
+            result.append(res)
+
+    return result
+
+
+def getDetail(data: dict[str, Any]):
+    detailData = detail(data["permalink"], False)
+    requiredData = {key: data[key] for key in data.keys()}
+    description = " ".join(detailData["description"].split("\n"))
+    requiredData["teaser"] = description[:150]
+    requiredData["rating"] = detailData["rating"]
+    return requiredData
 
 
 def queryInfoSeek(store, data):
